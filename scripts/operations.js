@@ -233,6 +233,10 @@ btnLogin.addEventListener('click', function (e) {
 
     // Update UI
     updateUI(currentAccount);
+  } else {
+    alert(
+      'Account does not exist...🚫 Please check your credentials and try again!'
+    );
   }
 });
 
