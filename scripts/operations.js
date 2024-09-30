@@ -268,6 +268,8 @@ btnTransfer.addEventListener('click', function (e) {
     // Reset timer
     clearInterval(timer);
     timer = startLogOutTimer();
+  } else {
+    alert('Account does not exist...🚫 Please check the username.');
   }
 });
 
@@ -315,6 +317,8 @@ btnClose.addEventListener('click', function (e) {
 
     // Hide UI
     containerApp.style.opacity = 0;
+  } else {
+    alert('Invalid Credentials! Please provide the valid credentials. ');
   }
 
   inputCloseUsername.value = inputClosePin.value = '';
