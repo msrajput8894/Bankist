@@ -268,6 +268,8 @@ btnTransfer.addEventListener('click', function (e) {
     // Reset timer
     clearInterval(timer);
     timer = startLogOutTimer();
+  } else if (amount < 0 || currentAccount.balance < amount) {
+    alert('Invalid Transaction!');
   } else {
     alert('Account does not exist...🚫 Please check the username.');
   }
@@ -278,7 +280,7 @@ btnLoan.addEventListener('click', function (e) {
 
   const amount = Math.floor(inputLoanAmount.value);
 
-  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1))
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     setTimeout(() => {
       // Add movement
       currentAccount.movements.push(amount);
@@ -293,6 +295,9 @@ btnLoan.addEventListener('click', function (e) {
       clearInterval(timer);
       timer = startLogOutTimer();
     }, 5000);
+  } else {
+    alert('Invalid Request! please try again later.');
+  }
   inputLoanAmount.value = '';
 });
 
