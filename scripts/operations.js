@@ -317,6 +317,8 @@ btnClose.addEventListener('click', function (e) {
 
     // Hide UI
     containerApp.style.opacity = 0;
+
+    labelWelcome.textContent = 'Login to get started';
   } else {
     alert('Invalid Credentials! Please provide the valid credentials. ');
   }
