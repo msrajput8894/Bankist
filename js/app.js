@@ -55,9 +55,7 @@ btnLogin.addEventListener('click', function (e) {
   );
 
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
-    labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(
-      ' '
-    )}`;
+    labelWelcome.textContent = `Welcome back, ${currentAccount.owner}`;
     containerApp.style.opacity = 100;
 
     const now = new Date();
