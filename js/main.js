@@ -1,5 +1,5 @@
 // main.js
-import { addNewAccount } from '../data/data.js';
+import { accounts, addNewAccount } from '../data/data.js';
 import { updateUI } from './ui.js';
 
 // Selected elements
@@ -230,7 +230,12 @@ form.addEventListener('submit', event => {
   const pin = Number(document.querySelector('.input__pin').value);
 
   addNewAccount(firstName, lastName, pin);
-  alert(`Congratulations! ${firstName} Your account is successfully opened!`);
+
+  const newAccount = accounts[accounts.length - 1];
+
+  alert(
+    `Congratulations! ${firstName} Your account is successfully opened! Your username is ${newAccount.username}`
+  );
   window.location.href = 'operations.html';
 });
 
