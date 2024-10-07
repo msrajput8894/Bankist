@@ -103,6 +103,9 @@ btnTransfer.addEventListener('click', function (e) {
     currentAccount.movementsDates.push(new Date().toISOString());
     receiverAcc.movementsDates.push(new Date().toISOString());
     updateUI(currentAccount);
+    showNotification(
+      `${amount} has been transferred from your account to ${receiverAcc.owner}'s account`
+    );
     clearInterval(timer);
     timer = startLogOutTimer();
   } else {
@@ -119,6 +122,7 @@ btnLoan.addEventListener('click', function (e) {
       currentAccount.movements.push(amount);
       currentAccount.movementsDates.push(new Date().toISOString());
       updateUI(currentAccount);
+      showNotification(`Your loan request is approved for the amount of ${amount}`)
       clearInterval(timer);
       timer = startLogOutTimer();
     }, 5000);
@@ -170,3 +174,14 @@ logoutBtn.addEventListener('click', e => {
   containerApp.style.opacity = 0;
   labelWelcome.textContent = 'Login to get started';
 });
+
+function showNotification(message) {
+  const notification = document.getElementById('notification');
+  notification.textContent = message;
+  notification.classList.remove('hidden');
+  setTimeout(() => {
+    notification.classList.add('hidden');
+  }, 5000);
+}
+
+// Example usage

@@ -308,3 +308,18 @@ h2 {
   border-radius: 50px;
   cursor: pointer;
 }
+
+.notification {
+  font-size: 16px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.hidden {
+  display: none;
+}
