@@ -315,11 +315,22 @@ h2 {
   top: 20px;
   right: 20px;
   background-color: #4caf50;
-  color: white;
+  color: black;
   padding: 10px;
   border-radius: 5px;
 }
 
 .hidden {
   display: none;
+}
+
+.alert{
+  font-size: 16px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #ee406b;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
 }

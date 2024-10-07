@@ -108,8 +108,17 @@ btnTransfer.addEventListener('click', function (e) {
     );
     clearInterval(timer);
     timer = startLogOutTimer();
-  } else {
-    alert('Invalid Transaction!');
+  } else if (
+    amount > 0 &&
+    receiverAcc &&
+    currentAccount.balance < amount &&
+    receiverAcc?.username !== currentAccount.username
+  ) {
+    showAlert(`Your account balance is insufficient to make this transaction!`);
+  } else if (!receiverAcc) {
+    showAlert(`Account does not exist!`);
+  }else{
+    alert('Invalid Transaction!')
   }
 });
 
@@ -122,7 +131,9 @@ btnLoan.addEventListener('click', function (e) {
       currentAccount.movements.push(amount);
       currentAccount.movementsDates.push(new Date().toISOString());
       updateUI(currentAccount);
-      showNotification(`Your loan request is approved for the amount of ${amount}`)
+      showNotification(
+        `Your loan request is approved for the amount of ${amount}`
+      );
       clearInterval(timer);
       timer = startLogOutTimer();
     }, 5000);
@@ -175,6 +186,7 @@ logoutBtn.addEventListener('click', e => {
   labelWelcome.textContent = 'Login to get started';
 });
 
+// Generate Notification
 function showNotification(message) {
   const notification = document.getElementById('notification');
   notification.textContent = message;
@@ -184,4 +196,13 @@ function showNotification(message) {
   }, 5000);
 }
 
-// Example usage
+// Generate Alert
+
+function showAlert(message) {
+  const notification = document.getElementById('alert');
+  notification.textContent = message;
+  notification.classList.remove('hidden');
+  setTimeout(() => {
+    notification.classList.add('hidden');
+  }, 5000);
+}
