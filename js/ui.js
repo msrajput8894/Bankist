@@ -19,7 +19,7 @@ export function formatMovementDate(date, locale) {
 
   if (daysPassed === 0) return 'Today';
   if (daysPassed === 1) return 'Yesterday';
-  if (daysPassed <= 7) return `${daysPassed} days ago`;
+  if (daysPassed <= 3) return `${daysPassed} days ago`;
 
   return new Intl.DateTimeFormat(locale).format(date);
 }

@@ -23,6 +23,7 @@ const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
+const logoutBtn = document.querySelector('.btn--logout');
 
 let currentAccount, timer;
 
@@ -160,4 +161,14 @@ btnSort.addEventListener('click', function (e) {
 document.querySelector('.back-to-home').addEventListener('click', () => {
   console.log('back to home');
   window.location.href = 'index.html';
+});
+
+// Logout functionality:
+
+logoutBtn.addEventListener('click', e => {
+  e.preventDefault();
+  console.log('successfully logged out');
+  localStorage.setItem('accounts', JSON.stringify(accounts));
+  containerApp.style.opacity = 0;
+  labelWelcome.textContent = 'Login to get started';
 });
