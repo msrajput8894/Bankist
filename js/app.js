@@ -117,8 +117,8 @@ btnTransfer.addEventListener('click', function (e) {
     showAlert(`Your account balance is insufficient to make this transaction!`);
   } else if (!receiverAcc) {
     showAlert(`Account does not exist!`);
-  }else{
-    alert('Invalid Transaction!')
+  } else {
+    alert('Invalid Transaction!');
   }
 });
 
@@ -138,7 +138,7 @@ btnLoan.addEventListener('click', function (e) {
       timer = startLogOutTimer();
     }, 5000);
   } else {
-    alert('Invalid Request! please try again later.');
+    showAlert('Invalid Request! please try again later.');
   }
   inputLoanAmount.value = '';
 });
@@ -153,12 +153,13 @@ btnClose.addEventListener('click', function (e) {
     const index = accounts.findIndex(
       acc => acc.username === currentAccount.username
     );
+    showNotification(`${currentAccount.owner} Your account has been closed!`);
     accounts.splice(index, 1);
     localStorage.setItem('accounts', JSON.stringify(accounts));
     containerApp.style.opacity = 0;
     labelWelcome.textContent = 'Login to get started';
   } else {
-    alert('Invalid Credentials! Please provide the valid credentials.');
+    showAlert('Invalid Credentials! Please provide the valid credentials.');
   }
 
   inputCloseUsername.value = inputClosePin.value = '';
