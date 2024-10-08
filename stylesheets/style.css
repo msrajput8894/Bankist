@@ -1,5 +1,3 @@
-
-
 :root {
   --color-primary: #5ec576;
   --color-secondary: #ffcb03;
@@ -170,7 +168,7 @@ img {
   color: #333;
 }
 
-.nav__link-btn{
+.nav__link-btn {
   font-size: 1.7rem;
   text-decoration: none;
 }
@@ -678,7 +676,6 @@ h4 {
   font-weight: 400;
 }
 
-
 /* Responsive Media queries */
 
 /* Small devices (tablets, 600px and up) */
@@ -824,6 +821,7 @@ h4 {
     grid-column: 1 / -1;
     grid-row: 2;
     transform: translateY(0);
+    display: none;
   }
 
   .features {
@@ -832,7 +830,14 @@ h4 {
   }
 
   .features__feature {
-    width: 100%;
+    width: 70%;
+  }
+
+  .features__img {
+    width: 70%;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
   }
 
   .operations__content {
@@ -865,5 +870,13 @@ h4 {
 
   .modal__form button {
     grid-column: 1;
+  }
+
+  .section__header {
+    font-size: 3rem;
+  }
+
+  .nav__link--btn.btn--show-modal {
+    display: none;
   }
 }
