@@ -324,7 +324,7 @@ h2 {
   display: none;
 }
 
-.alert{
+.alert {
   font-size: 16px;
   position: fixed;
   top: 20px;
@@ -333,4 +333,158 @@ h2 {
   color: black;
   padding: 10px;
   border-radius: 5px;
+}
+
+/* Responsive Design */
+
+/* Small devices (tablets, 600px and up) */
+@media (max-width: 600px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 1rem;
+  }
+
+  .login {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .login__input {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .app {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 1rem;
+  }
+
+  .balance {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .movements {
+    height: 30rem;
+  }
+
+  .summary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .operation {
+    padding: 2rem;
+  }
+
+  .form {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .logout-timer {
+    text-align: left;
+  }
+}
+
+/* Medium devices (desktops, 768px and up) */
+@media (max-width: 768px) {
+  nav {
+    padding: 0 2rem;
+  }
+
+  .login {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .login__input {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .app {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 1rem;
+  }
+
+  .balance {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .movements {
+    height: 35rem;
+  }
+
+  .summary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .operation {
+    padding: 2rem;
+  }
+
+  .form {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .logout-timer {
+    text-align: left;
+  }
+}
+
+/* Large devices (large desktops, 992px and up) */
+@media (max-width: 992px) {
+  nav {
+    padding: 0 3rem;
+  }
+
+  .login {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .login__input {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .app {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 1rem;
+  }
+
+  .balance {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .movements {
+    height: 40rem;
+  }
+
+  .summary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .operation {
+    padding: 2rem;
+  }
+
+  .form {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .logout-timer {
+    text-align: left;
+  }
 }
