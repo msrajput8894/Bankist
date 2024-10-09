@@ -207,3 +207,4 @@ function showAlert(message) {
     notification.classList.add('hidden');
   }, 5000);
 }
+

@@ -1,5 +1,5 @@
 // main.js
-import { accounts, addNewAccount } from '../data/data.js';
+import { accounts, addNewAccount, addNewAdminAccount } from '../data/data.js';
 import { updateUI } from './ui.js';
 
 // Selected elements
@@ -232,10 +232,12 @@ form.addEventListener('submit', event => {
   const lastName = document.querySelector('.input__lastname').value;
   const pin = Number(document.querySelector('.input__pin').value);
 
-  addNewAccount(firstName, lastName, pin);
-
+  if (firstName === 'Admin' || (firstName === 'admin' && pin === 1234)) {
+    addNewAdminAccount(firstName, lastName, pin);
+  } else {
+    addNewAccount(firstName, lastName, pin);
+  }
   const newAccount = accounts[accounts.length - 1];
-
   alert(
     `Congratulations! ${firstName} Your account is successfully opened! Your username is ${newAccount.username}`
   );

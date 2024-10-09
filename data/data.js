@@ -8,6 +8,7 @@ export class Account {
     this.movementsDates = [new Date().toISOString()];
     this.currency = 'INR';
     this.locale = 'en-IN';
+    this.isAdmin = false;
     this.username = this.createUsername();
   }
 
@@ -20,6 +21,28 @@ export const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
 
 export function addNewAccount(firstName, lastName, pin) {
   const newAccount = new Account(firstName, lastName, pin);
+  accounts.push(newAccount);
+  localStorage.setItem('accounts', JSON.stringify(accounts));
+}
+
+export class AdminAccount extends Account {
+  constructor(firstName, lastName, pin) {
+    super(firstName, lastName, pin);
+    this.movements = [100000];
+    this.isAdmin = true;
+  }
+
+  deleteAccount(username) {
+    //
+  }
+
+  adjustBalance(username, newBalance) {
+    // Implement balance adjustment logic...
+  }
+}
+
+export function addNewAdminAccount(firstName, lastName, pin) {
+  const newAccount = new AdminAccount(firstName, lastName, pin);
   accounts.push(newAccount);
   localStorage.setItem('accounts', JSON.stringify(accounts));
 }
