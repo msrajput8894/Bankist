@@ -2,7 +2,7 @@
 export class Account {
   constructor(firstName, lastName, pin) {
     this.owner = `${firstName} ${lastName}`;
-    this.movements = [];
+    this.movements = [1000];
     this.interestRate = 1.2; // Default interest rate
     this.pin = pin;
     this.movementsDates = [new Date().toISOString()];
@@ -30,14 +30,6 @@ export class AdminAccount extends Account {
     super(firstName, lastName, pin);
     this.movements = [100000];
     this.isAdmin = true;
-  }
-
-  deleteAccount(username) {
-    //
-  }
-
-  adjustBalance(username, newBalance) {
-    // Implement balance adjustment logic...
   }
 }
 

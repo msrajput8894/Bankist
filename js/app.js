@@ -27,6 +27,7 @@ const logoutBtn = document.querySelector('.btn--logout');
 
 let currentAccount, timer;
 
+// Timer function
 const startLogOutTimer = function () {
   const tick = function () {
     const min = String(Math.trunc(time / 60)).padStart(2, 0);
@@ -48,7 +49,62 @@ const startLogOutTimer = function () {
   return timer;
 };
 
-btnLogin.addEventListener('click', function (e) {
+// Function to find account index by username
+function findAccountIndex(username) {
+  return accounts.findIndex(acc => acc.username === username);
+}
+
+// Function to close account
+function closeAccount(index) {
+  if (index !== -1) {
+    const account = accounts[index];
+    showNotification(`${account.owner} Your account has been closed!`);
+    accounts.splice(index, 1);
+    localStorage.setItem('accounts', JSON.stringify(accounts));
+  } else {
+    showAlert('User not found!');
+  }
+}
+
+// Function to handle account close by user
+function handleUserClose() {
+  const index = findAccountIndex(currentAccount.username);
+  closeAccount(index);
+  containerApp.style.opacity = 0;
+  labelWelcome.textContent = 'Login to get started';
+}
+
+// Function to handle account close by admin
+function handleAdminClose() {
+  const userName = inputCloseUsername.value;
+  const index = findAccountIndex(userName);
+  closeAccount(index);
+  showNotification(`Admin has deleted the account of ${userName}`);
+}
+
+// Function to display date
+function displayDate(account) {
+  const now = new Date();
+  const options = {
+    hour: 'numeric',
+    minute: 'numeric',
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric',
+  };
+  labelDate.textContent = new Intl.DateTimeFormat(
+    account.locale,
+    options
+  ).format(now);
+}
+
+// Function to clear input fields
+function clearInputFields(...inputs) {
+  inputs.forEach(input => (input.value = ''));
+}
+
+// Function to handle login
+function handleLogin(e) {
   e.preventDefault();
   currentAccount = accounts.find(
     acc => acc.username === inputLoginUsername.value
@@ -58,39 +114,26 @@ btnLogin.addEventListener('click', function (e) {
     labelWelcome.textContent = `Welcome back, ${currentAccount.owner}`;
     containerApp.style.opacity = 100;
 
-    const now = new Date();
-    const options = {
-      hour: 'numeric',
-      minute: 'numeric',
-      day: 'numeric',
-      month: 'numeric',
-      year: 'numeric',
-    };
-
-    labelDate.textContent = new Intl.DateTimeFormat(
-      currentAccount.locale,
-      options
-    ).format(now);
-    inputLoginUsername.value = inputLoginPin.value = '';
+    displayDate(currentAccount);
+    clearInputFields(inputLoginUsername, inputLoginPin);
     inputLoginPin.blur();
 
     if (timer) clearInterval(timer);
     timer = startLogOutTimer();
     updateUI(currentAccount);
   } else {
-    alert(
-      'Account does not exist...🚫 Please check your credentials and try again!'
-    );
+    showAlert(`Account doesn't exist!! Please validate the credential..`);
   }
-});
+}
 
-btnTransfer.addEventListener('click', function (e) {
+// Function to handle transfer
+function handleTransfer(e) {
   e.preventDefault();
   const amount = Number(inputTransferAmount.value);
   const receiverAcc = accounts.find(
     acc => acc.username === inputTransferTo.value
   );
-  inputTransferAmount.value = inputTransferTo.value = '';
+  clearInputFields(inputTransferAmount, inputTransferTo);
 
   if (
     amount > 0 &&
@@ -114,15 +157,16 @@ btnTransfer.addEventListener('click', function (e) {
     currentAccount.balance < amount &&
     receiverAcc?.username !== currentAccount.username
   ) {
-    showAlert(`Your account balance is insufficient to make this transaction!`);
+    showAlert('Your account balance is insufficient to make this transaction!');
   } else if (!receiverAcc) {
-    showAlert(`Account does not exist!`);
+    showAlert('Account does not exist!');
   } else {
     alert('Invalid Transaction!');
   }
-});
+}
 
-btnLoan.addEventListener('click', function (e) {
+// Function to handle loan request
+function handleLoanRequest(e) {
   e.preventDefault();
   const amount = Math.floor(inputLoanAmount.value);
 
@@ -141,53 +185,31 @@ btnLoan.addEventListener('click', function (e) {
     showAlert('Invalid Request! please try again later.');
   }
   inputLoanAmount.value = '';
-});
+}
 
-btnClose.addEventListener('click', function (e) {
-  e.preventDefault();
-
-  if (
-    inputCloseUsername.value === currentAccount.username &&
-    Number(inputClosePin.value) === currentAccount.pin
-  ) {
-    const index = accounts.findIndex(
-      acc => acc.username === currentAccount.username
-    );
-    showNotification(`${currentAccount.owner} Your account has been closed!`);
-    accounts.splice(index, 1);
-    localStorage.setItem('accounts', JSON.stringify(accounts));
-    containerApp.style.opacity = 0;
-    labelWelcome.textContent = 'Login to get started';
-  } else {
-    showAlert('Invalid Credentials! Please provide the valid credentials.');
-  }
-
-  inputCloseUsername.value = inputClosePin.value = '';
-});
-
-let sorted = false;
-btnSort.addEventListener('click', function (e) {
+// Function to sort movements
+function handleSortMovements(e) {
   e.preventDefault();
   displayMovements(currentAccount, !sorted);
   sorted = !sorted;
-});
+}
 
-document.querySelector('.back-to-home').addEventListener('click', () => {
-  console.log('back to home');
-  window.location.href = 'index.html';
-});
-
-// Logout functionality:
-
-logoutBtn.addEventListener('click', e => {
+// Function to handle logout
+function handleLogout(e) {
   e.preventDefault();
   console.log('successfully logged out');
   localStorage.setItem('accounts', JSON.stringify(accounts));
   containerApp.style.opacity = 0;
   labelWelcome.textContent = 'Login to get started';
-});
+}
 
-// Generate Notification
+// Function to navigate back to home
+function navigateToHome() {
+  console.log('back to home');
+  window.location.href = 'index.html';
+}
+
+// Function to show notification
 function showNotification(message) {
   const notification = document.getElementById('notification');
   notification.textContent = message;
@@ -197,8 +219,7 @@ function showNotification(message) {
   }, 5000);
 }
 
-// Generate Alert
-
+// Function to show alert
 function showAlert(message) {
   const notification = document.getElementById('alert');
   notification.textContent = message;
@@ -208,3 +229,30 @@ function showAlert(message) {
   }, 5000);
 }
 
+// Event listeners
+btnLogin.addEventListener('click', handleLogin);
+btnTransfer.addEventListener('click', handleTransfer);
+btnLoan.addEventListener('click', handleLoanRequest);
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+  const isValidUser =
+    inputCloseUsername.value === currentAccount.username &&
+    Number(inputClosePin.value) === currentAccount.pin;
+  const isAdmin =
+    currentAccount.username.includes('admin') &&
+    Number(inputClosePin.value) === currentAccount.pin;
+
+  if (isValidUser) {
+    handleUserClose();
+  } else if (isAdmin) {
+    handleAdminClose();
+  } else {
+    showAlert('Invalid Credentials! Please provide the valid credentials.');
+  }
+  clearInputFields(inputCloseUsername, inputClosePin);
+});
+btnSort.addEventListener('click', handleSortMovements);
+logoutBtn.addEventListener('click', handleLogout);
+document
+  .querySelector('.back-to-home')
+  .addEventListener('click', navigateToHome);
