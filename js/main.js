@@ -232,7 +232,7 @@ form.addEventListener('submit', event => {
   const lastName = document.querySelector('.input__lastname').value;
   const pin = Number(document.querySelector('.input__pin').value);
 
-  if (firstName === 'Admin' || (firstName === 'admin' && pin === 1234)) {
+  if ((firstName === 'Admin' || firstName === 'admin') && pin === 1234) {
     addNewAdminAccount(firstName, lastName, pin);
   } else {
     addNewAccount(firstName, lastName, pin);

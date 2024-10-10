@@ -143,21 +143,53 @@ btnLoan.addEventListener('click', function (e) {
   inputLoanAmount.value = '';
 });
 
-btnClose.addEventListener('click', function (e) {
-  e.preventDefault();
+// Function to find account index by username
+function findAccountIndex(username) {
+  return accounts.findIndex(acc => acc.username === username);
+}
 
-  if (
-    inputCloseUsername.value === currentAccount.username &&
-    Number(inputClosePin.value) === currentAccount.pin
-  ) {
-    const index = accounts.findIndex(
-      acc => acc.username === currentAccount.username
-    );
-    showNotification(`${currentAccount.owner} Your account has been closed!`);
+// Function to close account
+function closeAccount(index) {
+  if (index !== -1) {
+    const account = accounts[index];
+    showNotification(`${account.owner} Your account has been closed!`);
     accounts.splice(index, 1);
     localStorage.setItem('accounts', JSON.stringify(accounts));
-    containerApp.style.opacity = 0;
-    labelWelcome.textContent = 'Login to get started';
+  } else {
+    showAlert('User not found!');
+  }
+}
+
+// Function to handle account close by user
+function handleUserClose() {
+  const index = findAccountIndex(currentAccount.username);
+  closeAccount(index);
+  containerApp.style.opacity = 0;
+  labelWelcome.textContent = 'Login to get started';
+}
+
+// Function to handle account close by admin
+function handleAdminClose() {
+  const userName = inputCloseUsername.value;
+  const index = findAccountIndex(userName);
+  closeAccount(index);
+  showNotification(`Admin has deleted the account of ${userName}`);
+}
+
+// Main event listener
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+  const isValidUser =
+    inputCloseUsername.value === currentAccount.username &&
+    Number(inputClosePin.value) === currentAccount.pin;
+  const isAdmin =
+    currentAccount.username.includes('admin') &&
+    Number(inputClosePin.value) === currentAccount.pin;
+
+  if (isValidUser) {
+    handleUserClose();
+  } else if (isAdmin) {
+    handleAdminClose();
   } else {
     showAlert('Invalid Credentials! Please provide the valid credentials.');
   }
@@ -207,4 +239,3 @@ function showAlert(message) {
     notification.classList.add('hidden');
   }, 5000);
 }
-
