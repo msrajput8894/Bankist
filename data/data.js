@@ -2,7 +2,7 @@
 export class Account {
   constructor(firstName, lastName, pin) {
     this.owner = `${firstName} ${lastName}`;
-    this.movements = [];
+    this.movements = [1000];
     this.interestRate = 1.2; // Default interest rate
     this.pin = pin;
     this.movementsDates = [new Date().toISOString()];
