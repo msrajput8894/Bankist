@@ -31,14 +31,6 @@ export class AdminAccount extends Account {
     this.movements = [100000];
     this.isAdmin = true;
   }
-
-  deleteAccount(username) {
-    //
-  }
-
-  adjustBalance(username, newBalance) {
-    // Implement balance adjustment logic...
-  }
 }
 
 export function addNewAdminAccount(firstName, lastName, pin) {
