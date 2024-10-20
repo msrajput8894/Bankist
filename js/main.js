@@ -231,8 +231,9 @@ const slider = function () {
 slider();
 
 // Opening new account
-form.addEventListener('submit', event => {
+form.addEventListener('submit', async event => {
   event.preventDefault();
+
   const firstName = document.querySelector('.input__firstname').value;
   const lastName = document.querySelector('.input__lastname').value;
   const email = document.querySelector('.input__email').value;
@@ -248,19 +249,29 @@ form.addEventListener('submit', event => {
   } else {
     addNewAccount(firstName, lastName, email, pin);
   }
+
   const newAccount = accounts[accounts.length - 1];
-
-  sendWelcomeMail(firstName, newAccount.username, newAccount.email);
-
   alert(
     `Congratulations! ${capitalizeFirstName(
       firstName
-    )} Your account is successfully opened! Your username is ${
+    )}, your account is successfully opened! Your username is ${
       newAccount.username
     }`
   );
 
-  window.location.href = 'operations.html';
+  try {
+    await sendWelcomeMail(
+      capitalizeFirstName(firstName),
+      newAccount.username,
+      newAccount.email,
+      newAccount.accountNumber
+    );
+    alert('Email Sent!');
+    window.location.href = 'operations.html';
+  } catch (error) {
+    console.error('Failed to send email:', error);
+    alert('There was an issue sending the welcome email. Please try again.');
+  }
 });
 
 loginBtn.addEventListener('click', () => {

@@ -1,12 +1,17 @@
-export async function sendWelcomeMail(name, username, email) {
-  emailjs
-    .send('service_1qvuval', 'template_wx0tziz', {
+export async function sendWelcomeMail(name, username, email, accountNumber) {
+  try {
+    const response = await emailjs.send('service_1qvuval', 'template_wx0tziz', {
       to_name: name,
       user_id: username,
       email_id: 'bankist.support@bankist.com',
       user_email: email,
-    })
-    .then(alert('Email Sent!'));
+      user_accNum: accountNumber,
+    });
+    console.log('Email Sent:', response.status, response.text);
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw error; // Propagate error to be caught in the form submission handler
+  }
 }
 
 export async function sendDebitMail(
