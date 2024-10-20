@@ -13,6 +13,18 @@
 
     <link rel="stylesheet" href="stylesheets/operations_styles.css" />
     <title>Bankist</title>
+
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+    ></script>
+    <script type="text/javascript">
+      (function () {
+        emailjs.init({
+          publicKey: 'uHerZhvdRhCLShDf4',
+        });
+      })();
+    </script>
     <script type="module" defer src="js/app.js"></script>
   </head>
   <body>
@@ -33,7 +45,7 @@
           maxlength="4"
           class="login__input login__input--pin"
         />
-        <button class="login__btn">&rarr;</button>
+        <button type="submit" class="login__btn">&rarr;</button>
       </form>
     </nav>
 
@@ -127,9 +139,7 @@
     <div id="notification" class="notification hidden">
       New transaction added!
     </div>
-    <div id="alert" class="alert hidden">
-      New transaction added!
-    </div>
+    <div id="alert" class="alert hidden">New transaction added!</div>
 
     <!-- <script src="script.js"></script> -->
   </body>
