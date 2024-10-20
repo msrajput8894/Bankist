@@ -12,7 +12,19 @@
     />
     <link rel="stylesheet" href="stylesheets/style.css" />
     <title>Bankist | When Banking meets Minimalist</title>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+    ></script>
+    <script type="text/javascript">
+      (function () {
+        emailjs.init({
+          publicKey: 'uHerZhvdRhCLShDf4',
+        });
+      })();
+    </script>
 
+    <script type="module" defer src="js/email.js"></script>
     <script type="module" defer src="js/main.js"></script>
   </head>
   <body>
@@ -364,8 +376,14 @@
           name="lastname"
           required
         />
-        <!-- <label>Email Address</label>
-        <input type="email" id="emailid" name="emailid" required /> -->
+        <label>Email Address</label>
+        <input
+          type="email"
+          class="input__email"
+          id="email"
+          name="email"
+          required
+        />
         <label for="password">Pin</label>
         <input
           type="password"
@@ -374,7 +392,9 @@
           id="password"
           required
         />
-        <button class="btn account-open-btn">Next step &rarr;</button>
+        <button type="submit" class="btn account-open-btn">
+          Next step &rarr;
+        </button>
       </form>
     </div>
     <div class="overlay hidden"></div>

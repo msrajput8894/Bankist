@@ -2,10 +2,11 @@
 const generatedNumbers = new Set();
 
 export class Account {
-  constructor(firstName, lastName, pin) {
+  constructor(firstName, lastName, email, pin) {
     this.owner = `${firstName} ${lastName}`;
     this.movements = [1000];
-    this.interestRate = 1.2; // Default interest rate
+    this.interestRate = 1.2;
+    this.email = email;
     this.pin = pin;
     this.movementsDates = [new Date().toISOString()];
     this.currency = 'INR';
@@ -31,22 +32,22 @@ export class Account {
 
 export const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
 
-export function addNewAccount(firstName, lastName, pin) {
-  const newAccount = new Account(firstName, lastName, pin);
+export function addNewAccount(firstName, lastName, email, pin) {
+  const newAccount = new Account(firstName, lastName, email, pin);
   accounts.push(newAccount);
   localStorage.setItem('accounts', JSON.stringify(accounts));
 }
 
 export class AdminAccount extends Account {
-  constructor(firstName, lastName, pin) {
-    super(firstName, lastName, pin);
+  constructor(firstName, lastName, email, pin) {
+    super(firstName, lastName, email, pin);
     this.movements = [100000];
     this.isAdmin = true;
   }
 }
 
-export function addNewAdminAccount(firstName, lastName, pin) {
-  const newAccount = new AdminAccount(firstName, lastName, pin);
+export function addNewAdminAccount(firstName, lastName, email, pin) {
+  const newAccount = new AdminAccount(firstName, lastName, email, pin);
   accounts.push(newAccount);
   localStorage.setItem('accounts', JSON.stringify(accounts));
 }
