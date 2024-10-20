@@ -1,9 +1,13 @@
+import { capitalizeFirstName } from '../helpers/helperfunctions.js';
+
 // data.js
 const generatedNumbers = new Set();
 
 export class Account {
   constructor(firstName, lastName, email, pin) {
-    this.owner = `${firstName} ${lastName}`;
+    this.owner = `${capitalizeFirstName(firstName)} ${capitalizeFirstName(
+      lastName
+    )}`;
     this.movements = [1000];
     this.interestRate = 1.2;
     this.email = email;

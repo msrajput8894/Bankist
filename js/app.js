@@ -1,5 +1,11 @@
 // app.js
 import { accounts, addNewAccount } from '../data/data.js';
+import { formatDate } from '../helpers/date.js';
+import {
+  capitalizeFirstAndLastName,
+  capitalizeFirstName,
+} from '../helpers/helperfunctions.js';
+import { sendDebitMail } from './email.js';
 import {
   displayMovements,
   calcDisplayBalance,
@@ -141,14 +147,32 @@ function handleTransfer(e) {
     currentAccount.balance >= amount &&
     receiverAcc?.username !== currentAccount.username
   ) {
+    // Update transaction amount and date into Current and Receiver account
     currentAccount.movements.push(-amount);
     receiverAcc.movements.push(amount);
     currentAccount.movementsDates.push(new Date().toISOString());
     receiverAcc.movementsDates.push(new Date().toISOString());
+
+    //Send Debit Mail
+    sendDebitMail(
+      capitalizeFirstName(currentAccount.owner),
+      currentAccount.email,
+      currentAccount.accountNumber.slice(-4),
+      formatDate(currentAccount.movementsDates.slice(-1), 'dd-mm-yyyy hh:MM'),
+      Math.abs(currentAccount.movements.slice(-1)),
+      capitalizeFirstAndLastName(receiverAcc.owner),
+      receiverAcc.accountNumber.slice(-4)
+    );
+
+    // Update UI
     updateUI(currentAccount);
+
+    // Render notification
     showNotification(
       `${amount} has been transferred from your account to ${receiverAcc.owner}'s account`
     );
+
+    // Reset the timer
     clearInterval(timer);
     timer = startLogOutTimer();
   } else if (

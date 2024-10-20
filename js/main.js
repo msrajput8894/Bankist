@@ -1,5 +1,9 @@
 // main.js
 import { accounts, addNewAccount, addNewAdminAccount } from '../data/data.js';
+import {
+  capitalizeFirstName,
+  isDuplicateAccount,
+} from '../helpers/helperfunctions.js';
 import { sendWelcomeMail } from './email.js';
 import { updateUI } from './ui.js';
 
@@ -227,26 +231,47 @@ const slider = function () {
 slider();
 
 // Opening new account
-form.addEventListener('submit', event => {
+form.addEventListener('submit', async event => {
   event.preventDefault();
+
   const firstName = document.querySelector('.input__firstname').value;
   const lastName = document.querySelector('.input__lastname').value;
   const email = document.querySelector('.input__email').value;
   const pin = Number(document.querySelector('.input__pin').value);
 
-  if ((firstName === 'Admin' || firstName === 'admin') && pin === 1234) {
+  if (isDuplicateAccount(email)) {
+    alert('Account with the given email already exists!');
+    return;
+  }
+
+  if (email === 'msrajput8894@gmail.com' && pin === 1234) {
     addNewAdminAccount(firstName, lastName, email, pin);
   } else {
     addNewAccount(firstName, lastName, email, pin);
   }
+
   const newAccount = accounts[accounts.length - 1];
   alert(
-    `Congratulations! ${firstName} Your account is successfully opened! Your username is ${newAccount.username}`
+    `Congratulations! ${capitalizeFirstName(
+      firstName
+    )}, your account is successfully opened! Your username is ${
+      newAccount.username
+    }`
   );
 
-  sendWelcomeMail(firstName, newAccount.username, newAccount.email);
-
-  window.location.href = 'operations.html';
+  try {
+    await sendWelcomeMail(
+      capitalizeFirstName(firstName),
+      newAccount.username,
+      newAccount.email,
+      newAccount.accountNumber
+    );
+    alert('Email Sent!');
+    window.location.href = 'operations.html';
+  } catch (error) {
+    console.error('Failed to send email:', error);
+    alert('There was an issue sending the welcome email. Please try again.');
+  }
 });
 
 loginBtn.addEventListener('click', () => {
