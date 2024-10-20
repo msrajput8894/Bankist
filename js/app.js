@@ -1,6 +1,10 @@
 // app.js
 import { accounts, addNewAccount } from '../data/data.js';
 import { formatDate } from '../helpers/date.js';
+import {
+  capitalizeFirstAndLastName,
+  capitalizeFirstName,
+} from '../helpers/helperfunctions.js';
 import { sendDebitMail } from './email.js';
 import {
   displayMovements,
@@ -143,7 +147,6 @@ function handleTransfer(e) {
     currentAccount.balance >= amount &&
     receiverAcc?.username !== currentAccount.username
   ) {
-
     // Update transaction amount and date into Current and Receiver account
     currentAccount.movements.push(-amount);
     receiverAcc.movements.push(amount);
@@ -152,11 +155,13 @@ function handleTransfer(e) {
 
     //Send Debit Mail
     sendDebitMail(
-      currentAccount.owner,
+      capitalizeFirstName(currentAccount.owner),
       currentAccount.email,
       currentAccount.accountNumber.slice(-4),
       formatDate(currentAccount.movementsDates.slice(-1), 'dd-mm-yyyy hh:MM'),
-      Math.abs(currentAccount.movements.slice(-1))
+      Math.abs(currentAccount.movements.slice(-1)),
+      capitalizeFirstAndLastName(receiverAcc.owner),
+      receiverAcc.accountNumber.slice(-4)
     );
 
     // Update UI
