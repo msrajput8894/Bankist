@@ -10,6 +10,7 @@ export class Account {
     this.locale = 'en-IN';
     this.isAdmin = false;
     this.username = this.createUsername();
+    this.accountNumber = generateAccNum();
   }
 
   createUsername() {
@@ -40,3 +41,14 @@ export function addNewAdminAccount(firstName, lastName, pin) {
 }
 
 console.log(accounts);
+
+const generatedNumbers = new Set();
+
+function generateAccNum() {
+  let uniqueNumber;
+  do {
+    uniqueNumber = Math.floor(Math.random() * 900000000000) + 100000000000;
+  } while (generatedNumbers.has(uniqueNumber));
+  generatedNumbers.add(uniqueNumber);
+  return uniqueNumber.toString();
+}
