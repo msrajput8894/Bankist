@@ -339,6 +339,9 @@ h2 {
 
 /* Small devices (tablets, 600px and up) */
 @media (max-width: 600px) {
+  html {
+    font-size: 45%;
+  }
   nav {
     flex-direction: column;
     align-items: flex-start;
@@ -356,7 +359,7 @@ h2 {
   }
 
   .app {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1.5fr 1fr;
     grid-template-rows: auto;
     gap: 1rem;
   }
@@ -406,7 +409,7 @@ h2 {
   }
 
   .app {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1.5fr 1fr;
     grid-template-rows: auto;
     gap: 1rem;
   }
@@ -456,7 +459,7 @@ h2 {
   }
 
   .app {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1.5fr 1fr;
     grid-template-rows: auto;
     gap: 1rem;
   }

@@ -153,7 +153,7 @@ function handleTransfer(e) {
     currentAccount.movementsDates.push(new Date().toISOString());
     receiverAcc.movementsDates.push(new Date().toISOString());
 
-    //Send Debit Mail
+    // Send Debit Mail
     sendDebitMail(
       capitalizeFirstName(currentAccount.owner),
       currentAccount.email,
@@ -164,6 +164,7 @@ function handleTransfer(e) {
       receiverAcc.accountNumber.slice(-4)
     );
 
+    // Send Credit Mail
     sendCreditMail(
       capitalizeFirstAndLastName(currentAccount.owner),
       receiverAcc.email,
