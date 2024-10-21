@@ -5,7 +5,7 @@ import {
   capitalizeFirstAndLastName,
   capitalizeFirstName,
 } from '../helpers/helperfunctions.js';
-import { sendDebitMail } from './email.js';
+import { sendCreditMail, sendDebitMail } from './email.js';
 import {
   displayMovements,
   calcDisplayBalance,
@@ -161,6 +161,16 @@ function handleTransfer(e) {
       formatDate(currentAccount.movementsDates.slice(-1), 'dd-mm-yyyy hh:MM'),
       Math.abs(currentAccount.movements.slice(-1)),
       capitalizeFirstAndLastName(receiverAcc.owner),
+      receiverAcc.accountNumber.slice(-4)
+    );
+
+    sendCreditMail(
+      capitalizeFirstAndLastName(currentAccount.owner),
+      receiverAcc.email,
+      currentAccount.accountNumber.slice(-4),
+      formatDate(currentAccount.movementsDates.slice(-1), 'dd-mm-yyyy hh:MM'),
+      Math.abs(currentAccount.movements.slice(-1)),
+      capitalizeFirstName(receiverAcc.owner),
       receiverAcc.accountNumber.slice(-4)
     );
 
