@@ -21,6 +21,7 @@ const btnLogin = document.querySelector('.login__btn');
 const btnTransfer = document.querySelector('.form__btn--transfer');
 const btnLoan = document.querySelector('.form__btn--loan');
 const btnClose = document.querySelector('.form__btn--close');
+const btnCloseAll = document.querySelector('.form__btn--close-all');
 const btnSort = document.querySelector('.btn--sort');
 const inputLoginUsername = document.querySelector('.login__input--user');
 const inputLoginPin = document.querySelector('.login__input--pin');
@@ -86,6 +87,16 @@ function handleAdminClose() {
   const index = findAccountIndex(userName);
   closeAccount(index);
   showNotification(`Admin has deleted the account of ${userName}`);
+}
+
+// Function to handle account close by admin
+function handleAdminCloseAll() {
+  // accounts = [];
+  localStorage.clear();
+  showNotification(`Admin has deleted all the accounts`);
+  containerApp.style.opacity = 0;
+  labelWelcome.textContent = 'Login to get started';
+  console.log('deleted all accounts');
 }
 
 // Function to display date
@@ -279,7 +290,7 @@ btnClose.addEventListener('click', function (e) {
     inputCloseUsername.value === currentAccount.username &&
     Number(inputClosePin.value) === currentAccount.pin;
   const isAdmin =
-    currentAccount.username.includes('admin') &&
+    currentAccount.isAdmin &&
     Number(inputClosePin.value) === currentAccount.pin;
 
   if (isValidUser) {
@@ -291,6 +302,22 @@ btnClose.addEventListener('click', function (e) {
   }
   clearInputFields(inputCloseUsername, inputClosePin);
 });
+
+btnCloseAll.addEventListener('click', e => {
+  e.preventDefault();
+  // const isAdmin =
+  //   currentAccount.isAdmin &&
+  //   Number(inputClosePin.value) === currentAccount.pin;
+
+  if (1) {
+    handleAdminCloseAll();
+    // console.log(currentAccount.isAdmin);
+    console.log('admin close all');
+  } else {
+    showAlert(`You are not authorized to perform this operation!!!`);
+  }
+});
+
 btnSort.addEventListener('click', handleSortMovements);
 logoutBtn.addEventListener('click', handleLogout);
 document
