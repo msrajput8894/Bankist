@@ -110,14 +110,18 @@ function clearInputFields(...inputs) {
 }
 
 // Function to handle login
+
 function handleLogin(e) {
   e.preventDefault();
+
   currentAccount = accounts.find(
     acc => acc.username === inputLoginUsername.value
   );
 
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
-    labelWelcome.textContent = `Welcome back, ${currentAccount.owner}`;
+    labelWelcome.textContent = `Welcome back, ${capitalizeFirstName(
+      currentAccount.owner
+    )}`;
     containerApp.style.opacity = 100;
 
     displayDate(currentAccount);
@@ -129,6 +133,7 @@ function handleLogin(e) {
     updateUI(currentAccount);
   } else {
     showAlert(`Account doesn't exist!! Please validate the credential..`);
+    clearInputFields(inputLoginUsername, inputLoginPin);
   }
 }
 
