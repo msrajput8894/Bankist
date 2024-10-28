@@ -5,7 +5,7 @@ import {
   capitalizeFirstAndLastName,
   capitalizeFirstName,
 } from '../helpers/helperfunctions.js';
-import { sendDebitMail } from './email.js';
+import { sendCreditMail, sendDebitMail } from './email.js';
 import {
   displayMovements,
   calcDisplayBalance,
@@ -21,6 +21,7 @@ const btnLogin = document.querySelector('.login__btn');
 const btnTransfer = document.querySelector('.form__btn--transfer');
 const btnLoan = document.querySelector('.form__btn--loan');
 const btnClose = document.querySelector('.form__btn--close');
+const btnCloseAll = document.querySelector('.form__btn--close-all');
 const btnSort = document.querySelector('.btn--sort');
 const inputLoginUsername = document.querySelector('.login__input--user');
 const inputLoginPin = document.querySelector('.login__input--pin');
@@ -88,6 +89,16 @@ function handleAdminClose() {
   showNotification(`Admin has deleted the account of ${userName}`);
 }
 
+// Function to handle account close by admin
+function handleAdminCloseAll() {
+  // accounts = [];
+  localStorage.clear();
+  showNotification(`Admin has deleted all the accounts`);
+  containerApp.style.opacity = 0;
+  labelWelcome.textContent = 'Login to get started';
+  console.log('deleted all accounts');
+}
+
 // Function to display date
 function displayDate(account) {
   const now = new Date();
@@ -110,14 +121,18 @@ function clearInputFields(...inputs) {
 }
 
 // Function to handle login
+
 function handleLogin(e) {
   e.preventDefault();
+
   currentAccount = accounts.find(
     acc => acc.username === inputLoginUsername.value
   );
 
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
-    labelWelcome.textContent = `Welcome back, ${currentAccount.owner}`;
+    labelWelcome.textContent = `Welcome back, ${capitalizeFirstName(
+      currentAccount.owner
+    )}`;
     containerApp.style.opacity = 100;
 
     displayDate(currentAccount);
@@ -129,6 +144,7 @@ function handleLogin(e) {
     updateUI(currentAccount);
   } else {
     showAlert(`Account doesn't exist!! Please validate the credential..`);
+    clearInputFields(inputLoginUsername, inputLoginPin);
   }
 }
 
@@ -153,7 +169,7 @@ function handleTransfer(e) {
     currentAccount.movementsDates.push(new Date().toISOString());
     receiverAcc.movementsDates.push(new Date().toISOString());
 
-    //Send Debit Mail
+    // Send Debit Mail
     sendDebitMail(
       capitalizeFirstName(currentAccount.owner),
       currentAccount.email,
@@ -161,6 +177,17 @@ function handleTransfer(e) {
       formatDate(currentAccount.movementsDates.slice(-1), 'dd-mm-yyyy hh:MM'),
       Math.abs(currentAccount.movements.slice(-1)),
       capitalizeFirstAndLastName(receiverAcc.owner),
+      receiverAcc.accountNumber.slice(-4)
+    );
+
+    // Send Credit Mail
+    sendCreditMail(
+      capitalizeFirstAndLastName(currentAccount.owner),
+      receiverAcc.email,
+      currentAccount.accountNumber.slice(-4),
+      formatDate(currentAccount.movementsDates.slice(-1), 'dd-mm-yyyy hh:MM'),
+      Math.abs(currentAccount.movements.slice(-1)),
+      capitalizeFirstName(receiverAcc.owner),
       receiverAcc.accountNumber.slice(-4)
     );
 
@@ -263,7 +290,7 @@ btnClose.addEventListener('click', function (e) {
     inputCloseUsername.value === currentAccount.username &&
     Number(inputClosePin.value) === currentAccount.pin;
   const isAdmin =
-    currentAccount.username.includes('admin') &&
+    currentAccount.isAdmin &&
     Number(inputClosePin.value) === currentAccount.pin;
 
   if (isValidUser) {
@@ -275,6 +302,22 @@ btnClose.addEventListener('click', function (e) {
   }
   clearInputFields(inputCloseUsername, inputClosePin);
 });
+
+btnCloseAll.addEventListener('click', e => {
+  e.preventDefault();
+  // const isAdmin =
+  //   currentAccount.isAdmin &&
+  //   Number(inputClosePin.value) === currentAccount.pin;
+
+  if (1) {
+    handleAdminCloseAll();
+    // console.log(currentAccount.isAdmin);
+    console.log('admin close all');
+  } else {
+    showAlert(`You are not authorized to perform this operation!!!`);
+  }
+});
+
 btnSort.addEventListener('click', handleSortMovements);
 logoutBtn.addEventListener('click', handleLogout);
 document

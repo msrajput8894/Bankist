@@ -40,7 +40,7 @@
         />
         <!-- In practice, use type="password" -->
         <input
-          type="text"
+          type="password"
           placeholder="PIN"
           maxlength="4"
           class="login__input login__input--pin"
@@ -121,6 +121,22 @@
             class="form__input form__input--pin"
           />
           <button class="form__btn form__btn--close">&rarr;</button>
+          <label class="form__label">Confirm user</label>
+          <label class="form__label">Confirm PIN</label>
+        </form>
+      </div>
+
+      <!-- OPERATION: CLOSE ALL -->
+      <div class="operation operation--close operation--close-all">
+        <h2>Close All Accounts</h2>
+        <form class="form form--close">
+          <input type="text" class="form__input form__input--user" />
+          <input
+            type="password"
+            maxlength="4"
+            class="form__input form__input--pin"
+          />
+          <button class="form__btn form__btn--close-all">&rarr;</button>
           <label class="form__label">Confirm user</label>
           <label class="form__label">Confirm PIN</label>
         </form>
