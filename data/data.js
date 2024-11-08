@@ -21,7 +21,7 @@ export class Account {
   }
 
   createUsername() {
-    return `${this.owner.toLowerCase().split(' ').join('_')}@bankist.com`;
+    return this.email;
   }
 
   generateAccNum() {
